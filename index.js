@@ -5,7 +5,9 @@ const json2md = require("json2md");
 
 dotenv.config();
 
-console.log(process.env.GITHUB_TOKEN);
+let projectOwner = process.argv[2];
+let repositoryName = process.argv[3];
+let issueLabel = process.argv[4];
 
 const octokit = Octokit({
   auth: process.env.GITHUB_TOKEN,
@@ -25,9 +27,9 @@ const octokit = Octokit({
 });
 
 octokit.issues.listForRepo({
-  repo: 'Jaguar-Land-Rover',
-  owner: 'user-vision',
-  labels: 'Jaguar_ComparisonTool',
+  repo: repositoryName,//'Jaguar-Land-Rover'
+  owner: projectOwner,//'user-vision'
+  labels: issueLabel,//'Jaguar_ComparisonTool'
 }).then(({data, headers, status}) => {
   //console.log(json2md(data, 'snippet'));
   fs.writeFile('issues.json', JSON.stringify(data,null, 4), function (err) {

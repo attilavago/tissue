@@ -11,4 +11,5 @@ This tool uses the official Github [Octokit](https://octokit.github.io/rest.js) 
 - create a `.env` file in the project root and add the following line `GITHUB_TOKEN=your token from https://github.com/settings/tokens`. The result will look something like this `GITHUB_TOKEN=abcdefghijklmnop1234567890zxcvbnmkjhg`
 
 ## How to use 🛠️
-- in your command line run `node index`
+- in your command line run `node index user-vision Jaguar-Land-Rover Jaguar_ComparisonTool`
+- where `user-vision` is the **project owner**, `Jaguar-Land-Rover` is the **repository name**, and `Jaguar_ComparisonTool` is the **label** you're targeting.
