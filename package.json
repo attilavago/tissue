@@ -1,0 +1,15 @@
+{
+  "name": "github-issues-mastertool",
+  "version": "1.0.0",
+  "description": "a node.js tool to allow exporting gihub issues into various formats ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "attilavago",
+  "license": "MIT",
+  "dependencies": {
+    "@octokit/rest": "^16.34.0",
+    "dotenv": "^8.2.0"
+  }
+}
