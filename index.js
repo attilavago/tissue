@@ -29,8 +29,8 @@ octokit.issues.listForRepo({
   owner: 'user-vision',
   labels: 'Jaguar_ComparisonTool',
 }).then(({data, headers, status}) => {
-  console.log(json2md(data, 'snippet'));
-  fs.writeFile('issues.json', JSON.stringify(data), function (err) {
+  //console.log(json2md(data, 'snippet'));
+  fs.writeFile('issues.json', JSON.stringify(data,null, 4), function (err) {
     if (err) throw err;
     console.log('Issues saved to issues.json!');
   });
