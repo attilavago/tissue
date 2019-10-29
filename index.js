@@ -34,10 +34,12 @@ octokit.issues.listForRepo({
     if (err) throw err;
     console.log('Issues saved to issues.json!');
     data.forEach(function (issue) {
-      let title = `${issue.body}\n`;
-      fs.appendFile('issues.md', title, function (err) {
+      let body = `${issue.body}\n`;
+      let title = issue.body.split('\r')[0] + ' on mobile';
+      console.log(title);
+      fs.appendFile('issues.md', body, function (err) {
         if (err) throw err;
-        console.log('Issue saved to issues.md!');
+        // console.log('Issue saved to issues.md!');
       });
     });
   });
