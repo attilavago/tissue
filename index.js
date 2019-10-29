@@ -1,7 +1,6 @@
 const Octokit = require("@octokit/rest");
 const dotenv = require('dotenv');
 const fs = require('fs');
-const json2md = require("json2md");
 
 dotenv.config();
 
@@ -31,12 +30,11 @@ octokit.issues.listForRepo({
   owner: projectOwner,//'user-vision'
   labels: issueLabel,//'Jaguar_ComparisonTool'
 }).then(({data, headers, status}) => {
-  //console.log(json2md(data, 'snippet'));
   fs.writeFile('issues.json', JSON.stringify(data,null, 4), function (err) {
     if (err) throw err;
     console.log('Issues saved to issues.json!');
     data.forEach(function (issue) {
-      let title = `##${issue.title}\n`;
+      let title = `${issue.body}\n`;
       fs.appendFile('issues.md', title, function (err) {
         if (err) throw err;
         console.log('Issue saved to issues.md!');
