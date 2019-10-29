@@ -25,6 +25,18 @@ const octokit = Octokit({
   }
 });
 
+
+
+const findLabel = (array) => {
+  let labels = [];
+  array.forEach(function(label) {
+    if(label.name === "Mobile") labels.push('Mobile');
+    if(label.name === "Desktop") labels.push('Desktop');
+    if(label.name === "Tablet") labels.push('Tablet');
+  });
+  return labels;
+}
+
 octokit.issues.listForRepo({
   repo: repositoryName,//'Jaguar-Land-Rover'
   owner: projectOwner,//'user-vision'
@@ -34,10 +46,13 @@ octokit.issues.listForRepo({
     if (err) throw err;
     console.log('Issues saved to issues.json!');
     data.forEach(function (issue) {
-      let body = `${issue.body}\n`;
-      let title = issue.body.split('\r')[0] + ' on mobile';
-      console.log(title);
-      fs.appendFile('issues.md', body, function (err) {
+      let title = `${issue.body.split('\r')[0]}`;
+      // # Keyboard on Desktop,Mobile,Tablet
+      let titleWithLabels = `${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)}`;
+      let body = issue.body.substring(title.length + 1);
+      //console.log(titleWithLabels);
+      //console.log(body);
+      fs.appendFile('issues.md', `${titleWithLabels} ${body}`, function (err) {
         if (err) throw err;
         // console.log('Issue saved to issues.md!');
       });
