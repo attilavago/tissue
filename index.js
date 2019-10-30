@@ -1,6 +1,7 @@
 const Octokit = require("@octokit/rest");
 const dotenv = require('dotenv');
 const fs = require('fs');
+const markdownpdf = require("markdown-pdf");
 
 dotenv.config();
 
@@ -48,9 +49,7 @@ const findIssueCategory = (issuesArray, categoryLabel) => {
 }
 
 const writeHeading = (heading) => {
-  fs.appendFile('issues.md', `${heading}\n\r`, function (err) {
-    if (err) throw err;
-  });
+  fs.appendFileSync('issues.md', `\n\r${heading}\n\r`);
 }
 
 octokit.issues.listForRepo({
@@ -72,11 +71,23 @@ octokit.issues.listForRepo({
       // # Keyboard on Desktop,Mobile,Tablet
       let titleWithLabels = `${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)}`;
       let body = issue.body.substring(title.length + 1);
-      fs.appendFile('issues.md', `${titleWithLabels} ${body}`, function (err) {
-        if (err) throw err;
-        // console.log('Issue saved to issues.md!');
-      });
+      fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
     });
+  
+    writeHeading('# High Impact');
+  
+    findIssueCategory(data, "H").forEach(function (issue) {
+      let title = `${issue.body.split('\r')[0]}`;
+      // # Keyboard on Desktop,Mobile,Tablet
+      let titleWithLabels = `${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)}`;
+      let body = issue.body.substring(title.length + 1);
+      fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
+    });
+  
+    markdownpdf().from("./issues.md").to("./issues.pdf", function () {
+      console.log("Done")
+    })
+    
   });
   
 });
