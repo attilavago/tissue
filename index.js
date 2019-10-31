@@ -65,7 +65,7 @@ octokit.issues.listForRepo({
     if (err) throw err;
     console.log('Issues saved to issues.json!');
   
-    writeHeading('\n# Positive Findings {myclass}\r');
+    writeHeading('\n# Positive Findings\r');
     
     findIssueCategory(data, "P").forEach(function (issue) {
       let title = `${issue.body.split('\r')[0]}`;
