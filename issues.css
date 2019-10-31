@@ -1,3 +1,30 @@
 body {
    background: cornflowerblue;
 }
+
+h2 {
+    background: green;
+    font-weight: 700 !important;
+}
+
+p {
+    background: lightgray;
+}
+
+h1 {
+    background: red;
+}
+
+h3 {
+    background: burlywood;
+}
+
+img {
+    width: 33%;
+}
+
+.myclass {
+    background: yellow;
+    text-decoration: underline;
+    border-bottom: 2px solid black;
+}

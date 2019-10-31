@@ -2,6 +2,7 @@ const Octokit = require("@octokit/rest");
 const dotenv = require('dotenv');
 const fs = require('fs');
 const markdownpdf = require("markdown-pdf");
+const classy = require('remarkable-classy');
 
 dotenv.config();
 
@@ -64,27 +65,37 @@ octokit.issues.listForRepo({
     if (err) throw err;
     console.log('Issues saved to issues.json!');
   
-    writeHeading('# Positive Findings');
+    writeHeading('\n# Positive Findings {myclass}\r');
     
     findIssueCategory(data, "P").forEach(function (issue) {
       let title = `${issue.body.split('\r')[0]}`;
       // # Keyboard on Desktop,Mobile,Tablet
-      let titleWithLabels = `${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)}`;
+      let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)}`;
       let body = issue.body.substring(title.length + 1);
       fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
     });
   
-    writeHeading('# High Impact');
+    writeHeading('\n# High Impact\r');
   
     findIssueCategory(data, "H").forEach(function (issue) {
       let title = `${issue.body.split('\r')[0]}`;
       // # Keyboard on Desktop,Mobile,Tablet
-      let titleWithLabels = `${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)}`;
+      let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)}`;
       let body = issue.body.substring(title.length + 1);
       fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
     });
   
-    markdownpdf({cssPath: './issues.css'}).from("./issues.md").to("./issues.pdf", function () {
+    const options = {
+      cssPath: './issues.css',
+      paperBorder: '1cm',
+      remarkable: {
+        html: true,
+        breaks: true,
+        plugins: [ classy ],
+      }
+    }
+  
+    markdownpdf(options).from("./issues.md").to("./issues.pdf", function () {
       console.log("Done")
     })
     
