@@ -84,7 +84,7 @@ octokit.issues.listForRepo({
       fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
     });
   
-    markdownpdf().from("./issues.md").to("./issues.pdf", function () {
+    markdownpdf({cssPath: './issues.css'}).from("./issues.md").to("./issues.pdf", function () {
       console.log("Done")
     })
     
