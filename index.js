@@ -58,61 +58,63 @@ octokit.issues.listForRepo({
   owner: projectOwner,//'user-vision'
   labels: issueLabel,//'Jaguar_ComparisonTool'
 }).then(({data, headers, status}) => {
-  // we need to sort the array of objects by: 1. Positive, 2. High Impact, 3. Medium Impact, 4. Low Impact, 5. Observation
-  
-  
   fs.writeFile('issues.json', JSON.stringify(data,null, 4), function (err) {
     if (err) throw err;
     console.log('Issues saved to issues.json!');
-  
-    writeHeading('\n# Positive Findings\r');
     
     findIssueCategory(data, "P").forEach(function (issue) {
+      if(data.length !== 0){
+        writeHeading('\n# Positive Findings\r');
+      }
       let title = `${issue.body.split('\r')[0]}`;
       // # Keyboard on Desktop,Mobile,Tablet
       let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)} (P)`;
       let body = issue.body.substring(title.length + 1);
-      fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
+      fs.appendFileSync(`${issueLabel}-issues.md`, `${titleWithLabels} ${body}`);
     });
   
-    writeHeading('\n# High Impact\r');
-  
     findIssueCategory(data, "H").forEach(function (issue) {
+      if(data.length !== 0){
+        writeHeading('\n# High Impact\r');
+      }
       let title = `${issue.body.split('\r')[0]}`;
       // # Keyboard on Desktop,Mobile,Tablet
       let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)} (H)`;
       let body = issue.body.substring(title.length + 1);
-      fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
+      fs.appendFileSync(`${issueLabel}-issues.md`, `${titleWithLabels} ${body}`);
     });
   
-    writeHeading('\n# Medium Impact\r');
-  
     findIssueCategory(data, "M").forEach(function (issue) {
+      if(data.length !== 0){
+        writeHeading('\n# Medium Impact\r');
+      }
       let title = `${issue.body.split('\r')[0]}`;
       // # Keyboard on Desktop,Mobile,Tablet
       let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)} (M)`;
       let body = issue.body.substring(title.length + 1);
-      fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
+      fs.appendFileSync(`${issueLabel}-issues.md`, `${titleWithLabels} ${body}`);
     });
   
-    writeHeading('\n# Low Impact\r');
-  
     findIssueCategory(data, "L").forEach(function (issue) {
+      if(data.length !== 0){
+        writeHeading('\n# Low Impact\r');
+      }
       let title = `${issue.body.split('\r')[0]}`;
       // # Keyboard on Desktop,Mobile,Tablet
       let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)} (L)`;
       let body = issue.body.substring(title.length + 1);
-      fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
+      fs.appendFileSync(`${issueLabel}-issues.md`, `${titleWithLabels} ${body}`);
     });
   
-    writeHeading('\n# Observations\r');
-  
     findIssueCategory(data, "O").forEach(function (issue) {
+      if(data.length !== 0){
+        writeHeading('\n# Observations\r');
+      }
       let title = `${issue.body.split('\r')[0]}`;
       // # Keyboard on Desktop,Mobile,Tablet
       let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)} (O)`;
       let body = issue.body.substring(title.length + 1);
-      fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
+      fs.appendFileSync(`${issueLabel}-issues.md`, `${titleWithLabels} ${body}`);
     });
   
     const options = {
@@ -125,7 +127,7 @@ octokit.issues.listForRepo({
       }
     }
   
-    markdownpdf(options).from("./issues.md").to("./issues.pdf", function () {
+    markdownpdf(options).from(`${issueLabel}-issues.md`).to(`${issueLabel}-issues.pdf`, function () {
       console.log("PDF saved!")
     })
     
