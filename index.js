@@ -70,7 +70,7 @@ octokit.issues.listForRepo({
     findIssueCategory(data, "P").forEach(function (issue) {
       let title = `${issue.body.split('\r')[0]}`;
       // # Keyboard on Desktop,Mobile,Tablet
-      let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)}`;
+      let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)} (P)`;
       let body = issue.body.substring(title.length + 1);
       fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
     });
@@ -80,7 +80,37 @@ octokit.issues.listForRepo({
     findIssueCategory(data, "H").forEach(function (issue) {
       let title = `${issue.body.split('\r')[0]}`;
       // # Keyboard on Desktop,Mobile,Tablet
-      let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)}`;
+      let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)} (H)`;
+      let body = issue.body.substring(title.length + 1);
+      fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
+    });
+  
+    writeHeading('\n# Medium Impact\r');
+  
+    findIssueCategory(data, "M").forEach(function (issue) {
+      let title = `${issue.body.split('\r')[0]}`;
+      // # Keyboard on Desktop,Mobile,Tablet
+      let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)} (M)`;
+      let body = issue.body.substring(title.length + 1);
+      fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
+    });
+  
+    writeHeading('\n# Low Impact\r');
+  
+    findIssueCategory(data, "L").forEach(function (issue) {
+      let title = `${issue.body.split('\r')[0]}`;
+      // # Keyboard on Desktop,Mobile,Tablet
+      let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)} (L)`;
+      let body = issue.body.substring(title.length + 1);
+      fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
+    });
+  
+    writeHeading('\n# Observations\r');
+  
+    findIssueCategory(data, "O").forEach(function (issue) {
+      let title = `${issue.body.split('\r')[0]}`;
+      // # Keyboard on Desktop,Mobile,Tablet
+      let titleWithLabels = `\n#${issue.body.split('\r')[0]} ${findLabel(issue.labels).length !== 0 ? 'on' : ''} ${findLabel(issue.labels)} (O)`;
       let body = issue.body.substring(title.length + 1);
       fs.appendFileSync('issues.md', `${titleWithLabels} ${body}`);
     });
@@ -96,7 +126,7 @@ octokit.issues.listForRepo({
     }
   
     markdownpdf(options).from("./issues.md").to("./issues.pdf", function () {
-      console.log("Done")
+      console.log("PDF saved!")
     })
     
   });
