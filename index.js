@@ -50,7 +50,7 @@ const findIssueCategory = (issuesArray, categoryLabel) => {
 }
 
 const writeHeading = (heading) => {
-  fs.appendFileSync('issues.md', `\n\r${heading}\n\r`);
+  fs.appendFileSync(`${issueLabel}-issues.md`, `\n\r${heading}\n\r`);
 }
 
 octokit.issues.listForRepo({
